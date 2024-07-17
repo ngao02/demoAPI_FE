@@ -72,6 +72,41 @@
     --bg-body: #ffffff;
     --scroll-text-bg: #00000066;
     --scroll-text-color: #000000;
+    --r-color: #cf1a1a;
+    --secondary-color: #cc0e0e;
+    --sub-primary-color: #ea5a29;
+    --light-primary-color: #f7eae6;
+    --main-color: #111111;
+    --sub-color-1: #f8fafb;
+
+    /*spacing*/
+    --spacing-sm: 2px;
+    --spacing-sm-1: 5px;
+    --spacing-sm-2: 10px;
+    --spacing-md: 20px;
+    --spacing-md-1: 30px;
+    --spacing-lg: 40px;
+    --spacing-lg-1: 60px;
+    --spacing-lg-2: 80px;
+
+    /*font size*/
+    --font-s-sm: 0.6rem;
+    --font-s-sm-1: 0.8rem;
+    --font-s-md: 1rem;
+    --font-s-md-1: 1.2rem;
+    --font-s-lg: 1.4rem;
+    --font-s-lg-1: 1.6rem;
+    --font-s-lg-2: 1.8rem;
+
+    /* border radius */
+    --border-r-sm: 5px;
+    --border-r-md: 10px;
+    --border-r-mch: 9999px;
+
+    /* z-index */
+    --z-highest: 9999;
+    --z-higher: 99;
+    --z-high: 1;
   }
   .dark {
     --primary: #3d9ad5;
@@ -86,55 +121,55 @@
 
 @layer utilities {
   .roboto-thin {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 100;
     font-style: normal;
   }
 
   .roboto-light {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-style: normal;
   }
 
   .roboto-regular {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-style: normal;
   }
 
   .roboto-medium {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-style: normal;
   }
 
   .roboto-bold {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 700;
     font-style: normal;
   }
 
   .roboto-black {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-style: normal;
   }
 
   .roboto-light-italic {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-style: italic;
   }
 
   .roboto-regular-italic {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-style: italic;
   }
 
   .roboto-medium-italic {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-style: italic;
   }
