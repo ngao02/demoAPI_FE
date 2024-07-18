@@ -1,9 +1,10 @@
-import CustomerItem from '@/app/components/customer-item';
+import CustomerItem from '@/app/components/customer/customer-item';
 import { ICustomerItemProps } from '@/app/interfaces/common';
 import { Button } from '@/components/ui/button';
 import { request } from '@/lib/request';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 async function getDataCustomer() {
@@ -24,10 +25,12 @@ async function Customer() {
     <div>
       <div className=" flex justify-between">
         <h1 className="text-3xl font-black">Customers</h1>
-        <Button variant="custom">
-          <Plus color="#00000066" size={20} />
-          Add customer
-        </Button>
+        <Link href={'/customer/customer-add'}>
+          <Button variant="custom">
+            <Plus color="#00000066" size={20} />
+            Add customer
+          </Button>
+        </Link>
       </div>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
         {customers.map((cust: ICustomerItemProps, index: number) => (

@@ -1,6 +1,6 @@
 'use client';
-import { ICustomer, ICustomerItemProps } from '@/app/interfaces/common';
-import { MapPinned, Terminal } from 'lucide-react';
+import { ICustomerItemProps } from '@/app/interfaces/common';
+import { MapPinned } from 'lucide-react';
 import React, { useState } from 'react';
 
 import {
@@ -24,7 +24,7 @@ import {
 import { request } from '@/lib/request';
 import { useRouter } from 'next/navigation';
 import { toast, Toaster } from 'react-hot-toast';
-import FormEditCustomer from '@/app/components/form-edit-customer/index';
+import Link from 'next/link';
 
 interface IProps {
   data: ICustomerItemProps;
@@ -34,8 +34,7 @@ const CustomerItem = ({ data }: IProps) => {
   const dateValue = data.business?.incorpDate || data.individual?.birthDate;
   var date = dayjs(dateValue).format('DD/MM/YYYY');
 
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const route = useRouter();
 
   const deleteCustomer = async (custId: number) => {
@@ -114,21 +113,15 @@ const CustomerItem = ({ data }: IProps) => {
           </p>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-full ">
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => setIsOpenDelete(true)}
-          >
+          <DropdownMenuItem onClick={() => setIsOpen(true)}>
             Delete
           </DropdownMenuItem>
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => setIsOpenEdit(true)}
-          >
-            Edit
+          <DropdownMenuItem>
+            <Link href={`/customer/${data.customer.custId}`}>Detail</Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDialog open={isOpenDelete}>
+      <AlertDialog open={isOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
@@ -140,13 +133,13 @@ const CustomerItem = ({ data }: IProps) => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setIsOpenDelete(false)}>
+            <AlertDialogCancel onClick={() => setIsOpen(false)}>
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 deleteCustomer(data.customer.custId);
-                setIsOpenDelete(false);
+                setIsOpen(false);
               }}
             >
               Delete
@@ -155,7 +148,6 @@ const CustomerItem = ({ data }: IProps) => {
         </AlertDialogContent>
       </AlertDialog>
       <Toaster position="top-center" />
-      {/* edit */}
     </div>
   );
 };

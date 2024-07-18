@@ -50,7 +50,7 @@ const navItems = [
 const Navbar: React.FC = () => {
   const [activeItem, setActiveItem] = useState(navItems[0].href);
   return (
-    <div className=" flex-col h-full w-52 pt-8 border-r-[1px] hidden md:flex bg-[var(--sub-color-1)] ">
+    <nav className=" flex-col w-52 pt-8 border-r-[1px] hidden md:flex bg-[var(--sub-color-1)] h-[1000px] fixed top-[60px]">
       {navItems.map((item, index) => (
         <Link
           href={item.href}
@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
           <p className="font-[600] text-base">{item.label}</p>
         </Link>
       ))}
-    </div>
+    </nav>
   );
 };
 

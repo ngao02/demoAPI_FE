@@ -8,16 +8,15 @@ export interface ICustomer {
   state?: string;
 }
 export interface IBusiness {
-  incorpDate: string;
-  name?: string;
-  city?: string;
-  stateId?: string;
+  incorpDate?: string;
+  name: string;
+  stateId: string;
   custId: number;
 }
 export interface IIndividual {
   birthDate: string;
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
   custId: number;
 }
 export interface ICustomerItemProps {

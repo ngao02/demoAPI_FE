@@ -31,8 +31,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <div className="flex flex-1">
-            <Navbar />
+          <Navbar />
+          <div className="flex flex-1  ">
+            <div className="flex-col w-52 pt-8 border-r-[1px] hidden md:flex bg-[var(--sub-color-1)] h-[1000px]"></div>
+
             <main className="flex-1 p-4">{children}</main>
           </div>
           <Footer />
