@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { request } from '@/lib/request';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 async function getDataCustomer() {
@@ -18,7 +17,6 @@ async function getDataCustomer() {
   return response.data.customers;
 }
 async function Customer() {
-  //getall
   const customers = await getDataCustomer();
 
   return (
@@ -34,9 +32,7 @@ async function Customer() {
       </div>
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4">
         {customers.map((cust: ICustomerItemProps, index: number) => (
-          // <Link href={`/customer/${cust.customer.custId}`} >
           <CustomerItem data={cust} key={index} />
-          // </Link>
         ))}
       </div>
     </div>

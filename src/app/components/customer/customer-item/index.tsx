@@ -116,9 +116,12 @@ const CustomerItem = ({ data }: IProps) => {
           <DropdownMenuItem onClick={() => setIsOpen(true)}>
             Delete
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={`/customer/${data.customer.custId}`}>Detail</Link>
-          </DropdownMenuItem>
+          <Link href={`customer/customer-edit/${data.customer.custId}`}>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+          </Link>
+          <Link href={`/customer/${data.customer.custId}`}>
+            <DropdownMenuItem>Detail</DropdownMenuItem>
+          </Link>
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialog open={isOpen}>

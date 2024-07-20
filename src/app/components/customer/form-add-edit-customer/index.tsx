@@ -17,6 +17,8 @@ import { Input } from '@/components/ui/input';
 import { request } from '@/lib/request';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { ICustomerItemProps } from '@/app/interfaces/common';
+import dayjs from 'dayjs';
 
 const formSchema = z
   .object({
@@ -61,7 +63,7 @@ const formSchema = z
     IncorpDate: z
       .string()
       .refine((date) => !isNaN(Date.parse(date)), {
-        message: 'BirthDate must be a valid date',
+        message: 'IncorpDate must be a valid date',
       })
       .optional(),
 
@@ -120,27 +122,72 @@ const formSchema = z
       path: ['CustTypeCd'],
     },
   );
-const FormAddCustomer = () => {
+const FormAddEditCustomer = ({
+  data,
+  custId,
+}: {
+  data?: ICustomerItemProps;
+  custId?: number;
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      Address: data?.customer?.address || '',
+      City: data?.customer?.city || '',
+      CustTypeCd: data?.customer.custTypeCd || '',
+      FedId: data?.customer.fedId || '',
+      PostalCode: data?.customer?.postalCode || '',
+      State: data?.customer?.state || '',
+      IncorpDate:
+        dayjs(data?.business?.incorpDate).format('YYYY-MM-DD') || undefined,
+      Name: data?.business?.name || '',
+      StateId: data?.business?.stateId || '',
+      BirthDate:
+        dayjs(data?.individual?.birthDate).format('YYYY-MM-DD') || undefined,
+      FirstName: data?.individual?.firstName || '',
+      LastName: data?.individual?.lastName || '',
+    },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const response = await request.post('customer/create', values, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+    if (data) {
+      try {
+        const response = await request.put(
+          `customer/update/${custId}`,
+          values,
+          {
+            headers: { 'Content-Type': 'application/json' },
+          },
+        );
 
-      if (response.status === 200) {
-        toast.success('success!');
+        if (response.status === 200) {
+          toast.success('success!');
 
-        route.push('/customer');
-        route.refresh();
+          route.push('/customer');
+          route.refresh();
+        }
+      } catch (error: any) {
+        if (error.response.data.status === 400) {
+          console.log(error.response);
+          toast.error(error.response.data.message);
+        }
       }
-    } catch (error: any) {
-      if (error.response.data.status === 400) {
-        console.log(error.response);
-        toast.error(error.response.data.message);
+    } else {
+      try {
+        const response = await request.post('customer/create', values, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.status === 200) {
+          toast.success('success!');
+
+          route.push('/customer');
+          route.refresh();
+        }
+      } catch (error: any) {
+        if (error.response.data.status === 400) {
+          console.log(error.response);
+          toast.error(error.response.data.message);
+        }
       }
     }
   }
@@ -184,7 +231,7 @@ const FormAddCustomer = () => {
           name="CustTypeCd"
           render={({ field }) => (
             <FormItem className="h-[95px]">
-              <FormLabel>CustTypeCd</FormLabel>
+              <FormLabel>Cust Type Cd</FormLabel>
               <FormControl>
                 <Input placeholder="I or B" {...field} />
               </FormControl>
@@ -197,7 +244,7 @@ const FormAddCustomer = () => {
           name="FedId"
           render={({ field }) => (
             <FormItem className="h-[95px]">
-              <FormLabel>FedId</FormLabel>
+              <FormLabel>Fed Id</FormLabel>
               <FormControl>
                 <Input placeholder="Isd" {...field} />
               </FormControl>
@@ -210,7 +257,7 @@ const FormAddCustomer = () => {
           name="PostalCode"
           render={({ field }) => (
             <FormItem className="h-[95px]">
-              <FormLabel>PostalCode</FormLabel>
+              <FormLabel>Postal Code</FormLabel>
               <FormControl>
                 <Input placeholder="50000" {...field} />
               </FormControl>
@@ -238,7 +285,7 @@ const FormAddCustomer = () => {
               name="IncorpDate"
               render={({ field }) => (
                 <FormItem className="h-[95px]">
-                  <FormLabel>IncorpDate</FormLabel>
+                  <FormLabel>Incorp Date</FormLabel>
                   <FormControl>
                     <Input placeholder="2014-09-10" {...field} />
                   </FormControl>
@@ -264,7 +311,7 @@ const FormAddCustomer = () => {
               name="StateId"
               render={({ field }) => (
                 <FormItem className="h-[95px]">
-                  <FormLabel>StateId</FormLabel>
+                  <FormLabel>State Id</FormLabel>
                   <FormControl>
                     <Input placeholder="state1" {...field} />
                   </FormControl>
@@ -292,7 +339,7 @@ const FormAddCustomer = () => {
               name="FirstName"
               render={({ field }) => (
                 <FormItem className="h-[95px]">
-                  <FormLabel>FirstName</FormLabel>
+                  <FormLabel>First Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Nguyen" {...field} />
                   </FormControl>
@@ -305,7 +352,7 @@ const FormAddCustomer = () => {
               name="LastName"
               render={({ field }) => (
                 <FormItem className="h-[95px]">
-                  <FormLabel>LastName</FormLabel>
+                  <FormLabel>Last Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Ha" {...field} />
                   </FormControl>
@@ -328,4 +375,4 @@ const FormAddCustomer = () => {
   );
 };
 
-export default FormAddCustomer;
+export default FormAddEditCustomer;
