@@ -24,3 +24,16 @@ export interface ICustomerItemProps {
   business?: IBusiness | null;
   individual?: IIndividual | null;
 }
+
+export interface IBranch {
+  branchId: number;
+  address?: string;
+  city?: string;
+  name: string;
+  status?: string;
+  zipCode?: string;
+}
+export interface IDepartment {
+  depyId: number;
+  name: string;
+}
