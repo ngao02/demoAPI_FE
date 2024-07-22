@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -18,7 +20,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { IBranch } from '@/app/interfaces/common';
+import { IBranch, IDepartment } from '@/app/interfaces/common';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -27,13 +29,13 @@ import { request } from '@/lib/request';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-const TableBranches = ({ data }: { data: IBranch[] }) => {
+const TableDepartments = ({ data }: { data: IDepartment[] }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedBranchId, setSelectedBranchId] = useState<number>(1);
+  const [selectedDeptId, setSelectedDeptId] = useState<number>(1);
   const route = useRouter();
-  const deleteBranch = async (branchId: number) => {
+  const deleteDepartment = async (deptId: number) => {
     try {
-      const response = await request.delete(`branch/delete/${branchId}`, {
+      const response = await request.delete(`department/delete/${deptId}`, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -48,34 +50,26 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
       }
     }
   };
-  console.log(data);
+
   return (
     <>
       <Table>
         <TableHeader>
           <TableRow className="w-full">
-            <TableHead className="w-[5%]">Branch_Id</TableHead>
-            <TableHead className="w-[15%]">Name</TableHead>
-            <TableHead className="w-[20%]">Address</TableHead>
-            <TableHead className="w-[15%]">City</TableHead>
-            <TableHead className="w-[15%]">State</TableHead>
-            <TableHead className="w-[100px]">Zip_Code</TableHead>
+            <TableHead className="w-[10%] text-center">Dept_Id</TableHead>
+            <TableHead className="w-[55%]">Name</TableHead>
             <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((branch: IBranch) => (
-            <TableRow key={branch.branchId}>
+          {data.map((dept: IDepartment) => (
+            <TableRow key={dept.deptId}>
               <TableCell className="text-center font-bold">
-                {branch.branchId}
+                {dept.deptId}
               </TableCell>
-              <TableCell>{branch.name}</TableCell>
-              <TableCell>{branch.address}</TableCell>
-              <TableCell>{branch.city}</TableCell>
-              <TableCell>{branch.status}</TableCell>
-              <TableCell>{branch.zipCode}</TableCell>
-              <TableCell className="flex flex-row gap-4  pr-6 justify-end ">
-                <Link href={`/branch/branch-edit/${branch.branchId}`}>
+              <TableCell>{dept.name}</TableCell>
+              <TableCell className="flex flex-row gap-4  pr-28 justify-end ">
+                <Link href={`/department/dept-edit/${dept.deptId}`}>
                   <Button variant="edit">
                     <Pencil color="#00000066" size={16} />
                     Edit
@@ -85,7 +79,7 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
                 <Button
                   variant="delete"
                   onClick={() => {
-                    setSelectedBranchId(branch.branchId);
+                    setSelectedDeptId(dept.deptId);
                     setIsOpen(true);
                   }}
                 >
@@ -102,11 +96,12 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              You definitely want to delete customer has branchId =
-              {' ' + selectedBranchId}?
+              You definitely want to delete department has departmentId =
+              {' ' + selectedDeptId}?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Branch has branchId ={' ' + selectedBranchId} will be deleted.
+              Department has departmentId ={' ' + selectedDeptId} will be
+              deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -115,7 +110,7 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                deleteBranch(selectedBranchId);
+                deleteDepartment(selectedDeptId);
                 setIsOpen(false);
               }}
             >
@@ -129,4 +124,4 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
   );
 };
 
-export default TableBranches;
+export default TableDepartments;

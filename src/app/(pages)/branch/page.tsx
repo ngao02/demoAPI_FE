@@ -12,7 +12,7 @@ const Branch = async () => {
       headers: { 'Content-Type': 'application/json' },
     });
     if (response.data.status != 200) {
-      console.error('Failed to get customers');
+      console.error('Failed to get branchs');
     }
 
     return response.data.data;

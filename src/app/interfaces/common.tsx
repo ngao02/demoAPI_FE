@@ -34,6 +34,6 @@ export interface IBranch {
   zipCode?: string;
 }
 export interface IDepartment {
-  depyId: number;
+  deptId: number;
   name: string;
 }
