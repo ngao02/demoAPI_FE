@@ -58,12 +58,13 @@ const CustomerItem = ({ data }: IProps) => {
   return (
     <div className="w-[300px] h-[300px] bg-[var(--sub-color-1)] mt-6 p-5 rounded-md  relative">
       <div className="pb-4">
-        <p className="font-bold text-lg">
+        <p className="font-bold text-lg text-[var(--sub-primary-color)]">
           {data.business?.name ||
             `${data.individual?.firstName} ${data.individual?.lastName}`}
         </p>
-        <div className="flex flex-row">
-          <h3 className="text-gray-500">CustId:</h3> {data.customer.custId}
+        <div className="flex flex-row font-bold">
+          <h3 className="text-gray-500 ">CustId: </h3>
+          {data.customer.custId}
         </div>
       </div>
       <div className="flex flex-row pb-1">

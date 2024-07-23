@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -18,27 +20,26 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { IBranch } from '@/app/interfaces/common';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash2 } from 'lucide-react';
-
 import { request } from '@/lib/request';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { IProduct } from '@/app/interfaces/common';
 
-const TableBranches = ({ data }: { data: IBranch[] }) => {
+const TableProducts = ({ data }: { data: IProduct[] }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedBranchId, setSelectedBranchId] = useState<number>(1);
+  const [selectedProductCd, setSelectedProductCd] = useState<string>('');
   const route = useRouter();
-  const deleteBranch = async (branchId: number) => {
+  const deleteProduct = async (productCd: string) => {
     try {
-      const response = await request.delete(`branch/delete/${branchId}`, {
+      const response = await request.delete(`product/delete/${productCd}`, {
         headers: { 'Content-Type': 'application/json' },
       });
+
       if (response.status === 200) {
         toast.success(response.data.message);
-
         route.refresh();
       }
     } catch (error: any) {
@@ -53,28 +54,28 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
       <Table>
         <TableHeader>
           <TableRow className="w-full">
-            <TableHead className="w-[5%]">Branch_Id</TableHead>
-            <TableHead className="w-[15%]">Name</TableHead>
-            <TableHead className="w-[20%]">Address</TableHead>
-            <TableHead className="w-[15%]">City</TableHead>
-            <TableHead className="w-[15%]">State</TableHead>
-            <TableHead className="w-[100px]">Zip_Code</TableHead>
+            <TableHead className="w-[10%] text-center">Product Cd</TableHead>
+            <TableHead className="w-[20%]">Name</TableHead>
+            <TableHead className="w-[20%]">Date Offered</TableHead>
+            <TableHead className="w-[20%]">Date Retired</TableHead>
+            <TableHead className="w-[10%]">Product Type Cd</TableHead>
             <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((branch: IBranch) => (
-            <TableRow key={branch.branchId}>
+          {data.map((product: IProduct) => (
+            <TableRow key={product.productCd}>
               <TableCell className="text-center font-bold">
-                {branch.branchId}
+                {product.productCd}
               </TableCell>
-              <TableCell>{branch.name}</TableCell>
-              <TableCell>{branch.address}</TableCell>
-              <TableCell>{branch.city}</TableCell>
-              <TableCell>{branch.status}</TableCell>
-              <TableCell>{branch.zipCode}</TableCell>
-              <TableCell className="flex flex-row gap-4  pr-6 justify-end ">
-                <Link href={`/branch/branch-edit/${branch.branchId}`}>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.dateOffered}</TableCell>
+              <TableCell>{product.dateRetired}</TableCell>
+              <TableCell className="text-center">
+                {product.productTypeCd}
+              </TableCell>
+              <TableCell className="flex flex-row gap-4  pr-4 justify-end ">
+                <Link href={`/product/product-edit/${product.productCd}`}>
                   <Button variant="edit">
                     <Pencil color="#00000066" size={16} />
                     Edit
@@ -84,7 +85,7 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
                 <Button
                   variant="delete"
                   onClick={() => {
-                    setSelectedBranchId(branch.branchId);
+                    setSelectedProductCd(product.productCd);
                     setIsOpen(true);
                   }}
                 >
@@ -101,11 +102,11 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              You definitely want to delete customer has branchId =
-              {' ' + selectedBranchId}?
+              You definitely want to delete Product has ProductCd =
+              {' ' + selectedProductCd}?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Branch has branchId ={' ' + selectedBranchId} will be deleted.
+              Product has ProductCd ={' ' + selectedProductCd} will be deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -114,7 +115,7 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                deleteBranch(selectedBranchId);
+                deleteProduct(selectedProductCd);
                 setIsOpen(false);
               }}
             >
@@ -128,4 +129,4 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
   );
 };
 
-export default TableBranches;
+export default TableProducts;

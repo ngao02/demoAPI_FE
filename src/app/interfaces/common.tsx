@@ -37,3 +37,38 @@ export interface IDepartment {
   deptId: number;
   name: string;
 }
+export interface IProductType {
+  productTypeCd: string;
+  name?: string;
+}
+export interface IProduct {
+  productCd: string;
+  name: string;
+  dateOffered?: string;
+  dateRetired?: string;
+  productTypeCd?: string;
+}
+export interface IEmployee {
+  empId: number;
+  firstName: string;
+  lastName: string;
+  title?: string;
+  startDay: string;
+  endTime?: string;
+  assignedBranchId?: number;
+  deptId?: number;
+  superiorEmpId?: number;
+}
+export interface IAccount {
+  accountId: number;
+  availBalance?: number;
+  closeDate?: string;
+  lastActivityDate?: string;
+  openDate: string;
+  pendingBalance?: number;
+  status?: string;
+  custId?: number;
+  openBranchId: number;
+  openEmpId: number;
+  productCd: string;
+}

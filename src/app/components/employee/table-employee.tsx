@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -18,7 +20,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { IBranch } from '@/app/interfaces/common';
+import { IEmployee } from '@/app/interfaces/common';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -26,19 +28,20 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { request } from '@/lib/request';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import dayjs from 'dayjs';
 
-const TableBranches = ({ data }: { data: IBranch[] }) => {
+const TableEmployees = ({ data }: { data: IEmployee[] }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedBranchId, setSelectedBranchId] = useState<number>(1);
+  const [selectedEmpId, setSelectedEmpId] = useState<number>(1);
   const route = useRouter();
-  const deleteBranch = async (branchId: number) => {
+  const deleteEmployee = async (empId: number) => {
     try {
-      const response = await request.delete(`branch/delete/${branchId}`, {
+      const response = await request.delete(`employee/delete/${empId}`, {
         headers: { 'Content-Type': 'application/json' },
       });
+
       if (response.status === 200) {
         toast.success(response.data.message);
-
         route.refresh();
       }
     } catch (error: any) {
@@ -53,28 +56,46 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
       <Table>
         <TableHeader>
           <TableRow className="w-full">
-            <TableHead className="w-[5%]">Branch_Id</TableHead>
-            <TableHead className="w-[15%]">Name</TableHead>
-            <TableHead className="w-[20%]">Address</TableHead>
-            <TableHead className="w-[15%]">City</TableHead>
-            <TableHead className="w-[15%]">State</TableHead>
-            <TableHead className="w-[100px]">Zip_Code</TableHead>
+            <TableHead className="w-[8%] text-center">Emp_Id</TableHead>
+            <TableHead className="w-[10%]">First Name</TableHead>
+            <TableHead className="w-[10%]">Last Name</TableHead>
+            <TableHead className="w-[18%] text-center">Title</TableHead>
+            <TableHead className="w-[15%] text-center">Start Day</TableHead>
+            <TableHead className="w-[15%] text-center">End Day</TableHead>
+            <TableHead className="w-[10%]">Assigned Branch Id</TableHead>
+            <TableHead className="w-[10%]">Dept Id</TableHead>
+            <TableHead className="w-[10%]">Superior Emp Id</TableHead>
             <TableHead className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((branch: IBranch) => (
-            <TableRow key={branch.branchId}>
+          {data.map((emp: IEmployee) => (
+            <TableRow key={emp.empId}>
               <TableCell className="text-center font-bold">
-                {branch.branchId}
+                {emp.empId}
               </TableCell>
-              <TableCell>{branch.name}</TableCell>
-              <TableCell>{branch.address}</TableCell>
-              <TableCell>{branch.city}</TableCell>
-              <TableCell>{branch.status}</TableCell>
-              <TableCell>{branch.zipCode}</TableCell>
-              <TableCell className="flex flex-row gap-4  pr-6 justify-end ">
-                <Link href={`/branch/branch-edit/${branch.branchId}`}>
+
+              <TableCell className="text-center ">{emp.firstName}</TableCell>
+              <TableCell className="text-center ">{emp.lastName}</TableCell>
+              <TableCell className="text-center ">{emp.title}</TableCell>
+              <TableCell className="text-center ">
+                {dayjs(emp.startDay).format('DD/MM/YYYY')}
+              </TableCell>
+              <TableCell className="text-center ">
+                {dayjs(emp.endTime).format('DD/MM/YYYY')}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {emp.assignedBranchId}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {emp.deptId}
+              </TableCell>
+              <TableCell className="text-center font-bold ">
+                {emp.superiorEmpId}
+              </TableCell>
+
+              <TableCell className="flex flex-row gap-1  pr-1 justify-end ">
+                <Link href={`/employee/employee-edit/${emp.empId}`}>
                   <Button variant="edit">
                     <Pencil color="#00000066" size={16} />
                     Edit
@@ -84,7 +105,7 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
                 <Button
                   variant="delete"
                   onClick={() => {
-                    setSelectedBranchId(branch.branchId);
+                    setSelectedEmpId(emp.empId);
                     setIsOpen(true);
                   }}
                 >
@@ -101,11 +122,11 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              You definitely want to delete customer has branchId =
-              {' ' + selectedBranchId}?
+              You definitely want to delete employee has empId =
+              {' ' + selectedEmpId}?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Branch has branchId ={' ' + selectedBranchId} will be deleted.
+              Employee has empId ={' ' + selectedEmpId} will be deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -114,7 +135,7 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                deleteBranch(selectedBranchId);
+                deleteEmployee(selectedEmpId);
                 setIsOpen(false);
               }}
             >
@@ -128,4 +149,4 @@ const TableBranches = ({ data }: { data: IBranch[] }) => {
   );
 };
 
-export default TableBranches;
+export default TableEmployees;

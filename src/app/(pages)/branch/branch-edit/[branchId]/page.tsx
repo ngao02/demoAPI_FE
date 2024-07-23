@@ -8,9 +8,8 @@ const BranchEdit = async ({ params }: { params: { branchId: number } }) => {
       headers: { 'Content-Type': 'application/json' },
     });
     if (response.data.status != 200) {
-      console.error(`Failed to get customer has custId = ${branchId}`);
+      console.error(`Failed to get customer has branchId = ${branchId}`);
     }
-
     return response.data.data;
   };
 

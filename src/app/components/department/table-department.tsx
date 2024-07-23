@@ -41,7 +41,6 @@ const TableDepartments = ({ data }: { data: IDepartment[] }) => {
 
       if (response.status === 200) {
         toast.success(response.data.message);
-
         route.refresh();
       }
     } catch (error: any) {
